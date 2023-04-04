@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzx.auth.service.SysRoleService;
 import com.zzx.model.system.SysRole;
 import com.zzx.common.result.Result;
+import com.zzx.model.vo.AssginRoleVo;
 import com.zzx.model.vo.SysRoleQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "角色管理")
 @RestController
@@ -35,18 +37,18 @@ public class SysRoleController {
     @ApiOperation("条件分页查询")
     @GetMapping("/{page}/{limit}")
     public Result<IPage<SysRole>> pageQueryRole(@PathVariable Long page, @PathVariable Long limit,
-                                                SysRoleQueryVo sysRoleQueryVo ) {
+                                                SysRoleQueryVo sysRoleQueryVo) {
         //调用service的方法实现
         //1 创建Page对象，传递分页相关参数
         //page 当前页  limit 每页显示记录数
         Page<SysRole> pageParam = new Page<SysRole>(page, limit);
 
         //2 封装条件，判断条件是否为空，不为空进行封装
-        LambdaQueryWrapper<SysRole> queryWrapper= new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         String roleName = sysRoleQueryVo.getRoleName();
-        if(!StringUtils.isEmpty(roleName)) {
+        if (!StringUtils.isEmpty(roleName)) {
             //封装 like模糊查询
-            queryWrapper.like(SysRole::getRoleName,roleName);
+            queryWrapper.like(SysRole::getRoleName, roleName);
         }
 
         //3 调用方法实现
@@ -58,7 +60,7 @@ public class SysRoleController {
     @ApiOperation(value = "获取")
     @GetMapping("/get/{id}")
     public Result get(@PathVariable Long id) {
-        int a=1/0;
+        int a = 1 / 0;
         SysRole role = sysRoleService.getById(id);
         return Result.ok(role);
     }
@@ -88,6 +90,20 @@ public class SysRoleController {
     @DeleteMapping("/batchRemove")
     public Result batchRemove(@RequestBody List<Long> idList) {
         sysRoleService.removeByIds(idList);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "根据用户获取角色数据")
+    @GetMapping("/toAssign/{userId}")
+    public Result toAssig(@PathVariable Long  userId) {
+        Map<String, Object> roleMap = sysRoleService.findRoleByAdminId(userId);
+        return Result.ok(roleMap);
+    }
+
+    @ApiOperation(value = "根据用户分配角色")
+    @PostMapping("/doAssign")
+    public Result doAssign(@RequestBody AssginRoleVo assginRoleVo) {
+        sysRoleService.doAssign(assginRoleVo);
         return Result.ok();
     }
 }

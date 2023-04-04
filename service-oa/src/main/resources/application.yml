@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: service-oa
+
+  profiles:  #开发环境配置
+    active: dev
