@@ -1,35 +1,69 @@
 package com.zzx.model.system;
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import com.zzx.model.base.BaseEntity;
-import io.swagger.models.auth.In;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
+@ApiModel(description = "用户")
 @TableName("sys_user")
 public class SysUser extends BaseEntity {
-    private static final long serialVersionUID=1L;
 
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    //用户名
-    @TableField("username")
-    private String userName;
+	private static final long serialVersionUID = 1L;
 
-    @TableField("password")
-    private String password;
+	@ApiModelProperty(value = "用户名")
+	@TableField("username")
+	private String username;
 
-    @TableField("name")
-    private String name;
+	@ApiModelProperty(value = "密码")
+	@TableField("password")
+	private String password;
 
-    @TableField("phone")
-    private String phone;
-    @TableField("status")
-    private Integer status;
+	@ApiModelProperty(value = "姓名")
+	@TableField("name")
+	private String name;
 
+	@ApiModelProperty(value = "手机")
+	@TableField("phone")
+	private String phone;
 
-    @TableField("create_time")
-    private String createTime;
+	@ApiModelProperty(value = "头像地址")
+	@TableField("head_url")
+	private String headUrl;
+
+	@ApiModelProperty(value = "部门id")
+	@TableField("dept_id")
+	private Long deptId;
+
+	@ApiModelProperty(value = "岗位id")
+	@TableField("post_id")
+	private Long postId;
+
+	@ApiModelProperty(value = "描述")
+	@TableField("description")
+	private String description;
+
+	@ApiModelProperty(value = "openId")
+	@TableField("open_id")
+	private String openId;
+
+	@ApiModelProperty(value = "状态（1：正常 0：停用）")
+	@TableField("status")
+	private Integer status;
+
+	@TableField(exist = false)
+	private List<SysRole> roleList;
+	//岗位
+	@TableField(exist = false)
+	private String postName;
+	//部门
+	@TableField(exist = false)
+	private String deptName;
 }
+

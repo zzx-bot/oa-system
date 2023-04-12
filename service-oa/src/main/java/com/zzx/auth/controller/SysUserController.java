@@ -40,7 +40,7 @@ public class SysUserController {
         //判断条件值不为空
         //like 模糊查询
         if(!StringUtils.isEmpty(username)) {
-            wrapper.like(SysUser::getUserName,username);
+            wrapper.like(SysUser::getUsername,username);
         }
         //ge 大于等于
         if(!StringUtils.isEmpty(createTimeBegin)) {
