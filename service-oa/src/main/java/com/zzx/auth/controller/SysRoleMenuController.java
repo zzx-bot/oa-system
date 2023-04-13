@@ -2,6 +2,7 @@ package com.zzx.auth.controller;
 
 
 import com.zzx.auth.service.SysMenuService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @author zzx
  * @since 2023-04-04
  */
+@Api(value = "角色权限管理")
 @RestController
-@RequestMapping("/auth/system/sss")
+@RequestMapping("/auth/system/roleMenu")
 public class SysRoleMenuController {
 
 }
